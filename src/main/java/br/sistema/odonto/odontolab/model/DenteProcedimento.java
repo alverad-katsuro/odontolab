@@ -1,5 +1,7 @@
 package br.sistema.odonto.odontolab.model;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -13,8 +15,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.PrimaryKeyJoinColumns;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -40,10 +41,7 @@ public class DenteProcedimento {
     @JoinColumn(name = "procedimentoId")
     private Procedimento procedimento;
 
-    @PrimaryKeyJoinColumns({
-        @PrimaryKeyJoinColumn(name = "denteId"),
-        @PrimaryKeyJoinColumn(name = "odontogramaId")
-    })
+    @MapsId("denteId")
     @ManyToOne(fetch = FetchType.LAZY)
     private Dente dente;
 
@@ -53,4 +51,7 @@ public class DenteProcedimento {
 
     @Column(name = "denteProcedimentoValor", nullable = false, unique = false, precision = 10)
     private double denteProcedimentoValor;
+
+    @OneToMany(mappedBy = "denteProcedimento")
+    private Set<AgendamentoDenteProcedimento> agendamento;
 }

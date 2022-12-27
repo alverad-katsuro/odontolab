@@ -29,7 +29,7 @@ import lombok.Setter;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "pessoaId")
 public final class Funcionario extends Pessoa {
 
-    @Column(name = "odontologistaCRO", nullable = false, unique = true, length = 11)
+    @Column(name = "odontologistaCRO", nullable = true, unique = true, length = 11)
     private String odontologistaCRO;
 
     @Column(name = "funcionarioAtivo", nullable = false, unique = true, length = 1)

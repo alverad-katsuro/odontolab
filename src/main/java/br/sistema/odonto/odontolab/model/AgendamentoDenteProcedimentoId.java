@@ -1,9 +1,13 @@
 package br.sistema.odonto.odontolab.model;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +18,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class DenteProcedimentoId {
+public class AgendamentoDenteProcedimentoId {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "denteProcedimentoId", unique = true, nullable = false, precision = 10)
-    private long denteProcedimentoId;
+    @Column(name = "agendamentoDenteProcedimentoId", unique = true, nullable = false, precision = 10)
+    private long agendamentoDenteProcedimentoId;
 
-    private DenteId denteId;
-    
-    @Column(name = "procedimentoId", unique = true, nullable = false, precision = 10)
-    private long procedimentoId;
+    private AgendamentoId agendamentoId;
+
+    private DenteProcedimentoId denteProcedimentoId;
 }

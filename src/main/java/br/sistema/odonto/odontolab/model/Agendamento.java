@@ -1,24 +1,21 @@
 package br.sistema.odonto.odontolab.model;
 
-import java.util.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.sistema.odonto.odontolab.model.estatico.StatusAgendamento;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,19 +32,24 @@ import lombok.Setter;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agendamentoId")
 public class Agendamento {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "agendamentoId", nullable = false, unique = true, precision = 10)
-    private long agendamentoId;
+    @EmbeddedId
+    private AgendamentoId agendamentoId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date agendamentoData;
-
-    @JoinColumn(name = "pessoaId", nullable = false, unique = false)
+    @JoinColumn(name = "pessoaId", nullable = false, unique = false, referencedColumnName = "pessoaId")
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa pessoa;
+
+    @JoinColumn(name = "funcionarioId", nullable = false, unique = false, referencedColumnName = "pessoaId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Funcionario funcionario;
 
     @Column(name = "statusAgendamento", nullable = false, unique = false, length = 2)
     @Enumerated(EnumType.STRING)
     private StatusAgendamento statusAgendamento;
+
+    @Column(name = "agendamentoPago", nullable = false, unique = false)
+    private boolean agendamentoPago;
+
+    @OneToMany(mappedBy = "agendamento")
+    private Set<AgendamentoDenteProcedimento> denteProcedimentos;
 }
